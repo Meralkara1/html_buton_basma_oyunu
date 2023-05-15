@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Buton Yakalama Oyunu</title>
+<style>
+canvas {
+border: 5px solid black;
+background-color:#B04759;
+margin: auto;
+justify-content: center;
+align-items: center;
+}
+body {
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: #8BACAA;
+height: 100vh;
+}
+</style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var squareSize = 50;
+    var score = 0;
+// Kare nesnesinin sınıfı
+function Square(x, y) {
+this.x = x;
+this.y = y;
+this.draw = function() {
+ctx.fillStyle = "#F99B7D";
+ctx.fillRect(this.x, this.y, squareSize, squareSize);
+}}
+// Kare nesnesi oluşturma
+var square = new Square(0, 0);
+// Yeni kare oluşturma
+function newSquare() {
+var x = Math.floor(Math.random() * (canvas.width - squareSize));
+var y = Math.floor(Math.random() * (canvas.height - squareSize));
+square.x = x;
+square.y = y;
+}
+// Kareye tıklama işlevi
+canvas.addEventListener("click", function(e) {
+var mouseX = e.clientX - canvas.offsetLeft;
+var mouseY = e.clientY - canvas.offsetTop;
+if (mouseX > square.x && mouseX < square.x + squareSize && mouseY > square.y && mouseY < square.y + squareSize) {
+score++;
+newSquare();
+}
+});
+// Ana oyun döngüsü
+function gameLoop() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+square.draw();
+ctx.font = "20px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("Score: " + score, 30, 30);
+}
+// Yeni kare oluşturma ve oyun döngüsünü çalıştırma
+newSquare();
+setInterval(gameLoop, 1000/60);
+</script>
+</body>
+</html>
+
+
